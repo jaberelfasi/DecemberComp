@@ -74,7 +74,7 @@ public class Challenge
 				// this function will return the smallest distance for every given cell
 				// it will assign null to the cell if there was no reachable supply point by the
 				// cell
-				int min = GetMin(temp);
+				int min = getMin(temp);
 				int max = Arrays.stream(temp).max().getAsInt();
 
 				// here is where the distance values are assigned to the Logistic Map array
@@ -84,8 +84,8 @@ public class Challenge
 			}
 		// core computation ends
 
-		// print the array just to see
-		System.out.println("bellow are the distances");
+		// print the Logistic Map array just to see the final results
+		System.out.println("below are the distances");
 
 		for (int i = 0; i < x; i++)
 		{
@@ -98,7 +98,7 @@ public class Challenge
 	}
 
 	// helper functions
-	public static int GetMin(int[] temp)
+	public static int getMin(int[] temp)
 	{
 
 		int min = temp[0];
