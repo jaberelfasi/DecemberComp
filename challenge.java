@@ -52,11 +52,15 @@ public class Challenge
 
 		// this array is the temporary holder for all the distances
 		// between each cell and all the available supply points
-		int[] temp = new int[n];
+		// tempForward and tempBackward arrays are the temporary holders of all the distances
+		// between each cell and all the available supply points
+		int[] tempForward = new int[n];
+		int[] tempBackward = new int[n];
 
 		// core computation starts
 		// the two most outer for loops traverse the Logistic map 2d array
-		for (int i = 0; i < x; i++)
+		// the very most outer loop will traverse the array from the beginning and the end which improves efficiency
+		for (int i = 0; i <= x/2; i++)
 			for (int j = 0; j < y; j++)
 			{
 				// this inner loop iterates through each of the
@@ -67,20 +71,30 @@ public class Challenge
 					// This logic computes the distances and determines
 					// whether a supply point does not exist in the grid.
 					if (xCoordinates[ni] < x && yCoordinates[ni] < y)
-						temp[ni] = Math.abs(xCoordinates[ni] - i) + Math.abs(yCoordinates[ni] - j);
+					{
+						tempForward[ni] = Math.abs(xCoordinates[ni] - i) + Math.abs(yCoordinates[ni] - j);
+						tempBackward[ni] = Math.abs(xCoordinates[ni] - (x-(i+1))) + Math.abs(yCoordinates[ni] - (y-(j+1)));
+						}
 					else
-						temp[ni] = -1;
+					{
+						tempForward[ni] = -1;
+						tempBackward[ni] = -1;
+						}
 				}
 				// this function will return the smallest distance for every given cell
 				// it will assign null to the cell if there was no reachable supply point by the
 				// cell
-				int min = getMin(temp);
-				int max = Arrays.stream(temp).max().getAsInt();
+				int min2 = getMin(tempForward);
+				int max2 = Arrays.stream(tempForward).max().getAsInt();
+
+				int min3 = getMin(tempBackward);
+				int max3 = Arrays.stream(tempBackward).max().getAsInt();
 
 				// here is where the distance values are assigned to the Logistic Map array
-				if (max != -1)
-					myLogisticMap[i][j] = String.valueOf(min);
-
+				if (max2 != -1)
+					myLogisticMap[i][j] = String.valueOf(min2);
+				if (max3 != -1)
+					myLogisticMap[x-(i+1)][y-(j+1)] = String.valueOf(min3);
 			}
 		// core computation ends
 
